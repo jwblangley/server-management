@@ -22,6 +22,8 @@ async def progress_react(ctx):
     await ctx.message.add_reaction(ROCKET)
     try:
         yield
+    except KeyboardInterrupt:
+        raise KeyboardInterrupt
     except Exception:
         await ctx.message.add_reaction(CROSS)
         return

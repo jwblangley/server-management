@@ -37,7 +37,13 @@ class WebSocketMessageReceiver:
                 created = push["created"]
                 if created > self.last_created_message:
                     self.last_created_message = created
-                    on_message(push)
+                    try:
+                        on_message(content)
+                    except KeyboardInterrupt:
+                        raise KeyboardInterrupt
+                    except Exception:
+                        # TODO: signal faliure
+                        pass
             case [push, *tail]:
                 warnings.warn(f"Expected response of length 1. Got {len(pushes)}")
             case _:
