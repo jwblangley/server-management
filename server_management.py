@@ -15,6 +15,16 @@ def run_remote(ip_address, user, *command, capture_output=True, stdin=None):
     return subprocess.run(cmd, capture_output=capture_output, input=stdin)
 
 
+def run_local_script_on_remote(
+    ip_address, user, local_script_path, capture_output=True
+):
+    with open(local_script_path, "r") as f:
+        script = f.read()
+    return run_remote(
+        ip_address, user, "bash", capture_output=capture_output, stdin=script
+    )
+
+
 def is_port_open(ip_address, port):
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     with closing(sock):
@@ -30,9 +40,7 @@ def is_server_on(ip_address):
 
 
 def is_server_in_use(ip_address, user):
-    with open("in_use.sh", "r") as f:
-        script = f.read()
-    res = run_remote(ip_address, user, "bash", stdin=script)
+    res = run_local_script_on_remote(ip_address, user, "in_use.sh")
     return res.returncode == 0
 
 
