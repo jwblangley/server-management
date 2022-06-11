@@ -10,7 +10,9 @@ from common import wait_for
 def run_remote(ip_address, user, *command, capture_output=True, stdin=None):
     cmd = ["ssh", f"{user}@{ip_address}", *command]
 
-    return subprocess.run(cmd, capture_output=capture_output, input=stdin.encode())
+    stdin = stdin.encode() if stdin is not None else None
+
+    return subprocess.run(cmd, capture_output=capture_output, input=stdin)
 
 
 def is_port_open(ip_address, port):
@@ -42,3 +44,16 @@ def turn_server_on(mac_address, ip_address, verify=False):
 
     if verify:
         wait_for(lambda: is_server_on(ip_address), interval=5, timeout=300)
+
+    print("Server boot complete")
+
+
+# N.B requires password-less shutdown
+def turn_server_off(ip_address, user):
+    if is_server_in_use(ip_address, user):
+        print("Not shutting down - server in use")
+        return
+
+    r = run_remote(ip_address, user, "sudo", "shutdown", "now")
+
+    print("Server shutdown complete")
