@@ -6,13 +6,9 @@ from pushbullet import Pushbullet
 import threading
 import urllib
 import time
+from common import wait_for
 
 from server_management import ServerManager
-
-
-def wait_for(pred, interval):
-    while not pred():
-        time.sleep(interval)
 
 
 def has_internet_connection():
@@ -73,6 +69,6 @@ if __name__ == "__main__":
     wst.start()
 
     # Hang main thread until internet connection drops as this would indicate that the websocket is no longer responsive
-    wait_for(lambda: not has_internet_connection(), 60.0)
+    wait_for(lambda: not has_internet_connection(), interval=60.0, timeout=None)
 
     # daemon thread exits at the end of the main thread

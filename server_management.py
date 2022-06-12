@@ -53,7 +53,7 @@ class ServerManager:
         wake_on_lan(self.mac_address)
 
         if verify:
-            wait_for(lambda: self.is_server_on(), interval=5, timeout=300)
+            wait_for(lambda: self.is_server_on(), timeout=300)
 
         print("Server boot complete")
 
@@ -91,7 +91,7 @@ class ServerManager:
 
         if verify and verify_ports is not None and len(verify_ports) > 0:
             for p in verify_ports:
-                wait_for(lambda: self.is_port_open(p) == start)
+                wait_for(lambda: self.is_port_open(p) == start, timeout=300)
 
     def _change_application_state(self, start, application_id, verify=False):
         # TODO: turn_server_on()
