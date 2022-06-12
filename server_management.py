@@ -116,7 +116,7 @@ class ServerManager:
                     raise AssertionError("Malformed applications config")
 
     def start_application(self, application_id, verify=False):
-        self.turn_server_on(verify=True) # idempotent
+        self.turn_server_on(verify=True)  # idempotent
         return self._change_application_state(True, application_id, verify=verify)
 
     def stop_application(self, application_id, verify=False):
