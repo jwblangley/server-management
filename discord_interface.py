@@ -4,7 +4,7 @@ import os
 import logging
 from contextlib import asynccontextmanager
 
-from server_management import UnknownApplicationIDError, turn_server_on
+from server_management import ServerManager
 
 
 THUMBSUP = "\U0001f44d"
@@ -22,7 +22,7 @@ async def progress_react(ctx):
     await ctx.message.add_reaction(ROCKET)
     try:
         yield
-    except UnknownApplicationIDError as ex:
+    except ServerManager.UnknownApplicationIDError as ex:
         # TODO: signal faliure
         pass
     except KeyboardInterrupt:
@@ -61,7 +61,8 @@ class DiscordServerBot(commands.Bot):
         async def on(ctx, str=""):
             print("on received")
             async with progress_react(ctx):
-                turn_server_on()
+                # TODO
+                pass
 
 
 if __name__ == "__main__":
