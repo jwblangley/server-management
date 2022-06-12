@@ -97,7 +97,7 @@ class ServerManager:
             cfg = json.load(f)
             if application_id not in cfg:
                 raise ServerManager.UnknownApplicationIDError(
-                    f"Unkown application_id: {application_id}"
+                    f"Unknown application_id: {application_id}"
                 )
 
             app_cfg = cfg[application_id]
