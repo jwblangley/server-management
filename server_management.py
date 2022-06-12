@@ -94,8 +94,6 @@ class ServerManager:
                 wait_for(lambda: self.is_port_open(p) == start, timeout=300)
 
     def _change_application_state(self, start, application_id, verify=False):
-        # TODO: turn_server_on()
-
         with open("applications/applications.json", "r") as f:
             cfg = json.load(f)
             if application_id not in cfg:
@@ -118,6 +116,7 @@ class ServerManager:
                     raise AssertionError("Malformed applications config")
 
     def start_application(self, application_id, verify=False):
+        self.turn_server_on(verify=True) # idempotent
         return self._change_application_state(True, application_id, verify=verify)
 
     def stop_application(self, application_id, verify=False):
