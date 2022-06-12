@@ -4,7 +4,7 @@ import os
 import logging
 from contextlib import asynccontextmanager
 
-from server_management import turn_server_on
+from server_management import UnknownApplicationIDError, turn_server_on
 
 
 THUMBSUP = "\U0001f44d"
@@ -22,6 +22,9 @@ async def progress_react(ctx):
     await ctx.message.add_reaction(ROCKET)
     try:
         yield
+    except UnknownApplicationIDError as ex:
+        # TODO: signal faliure
+        pass
     except KeyboardInterrupt:
         raise KeyboardInterrupt
     except Exception:

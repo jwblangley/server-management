@@ -1,3 +1,6 @@
+# Application scripts
+applications/
+
 # Environment files
 .env
 

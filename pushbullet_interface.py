@@ -7,6 +7,8 @@ import threading
 import urllib
 import time
 
+from server_management import UnknownApplicationIDError
+
 
 def wait_for(pred, interval):
     while not pred():
@@ -39,6 +41,9 @@ class WebSocketMessageReceiver:
                     self.last_created_message = created
                     try:
                         on_message(content)
+                    except UnknownApplicationIDError as ex:
+                        # TODO: signal faliure
+                        pass
                     except KeyboardInterrupt:
                         raise KeyboardInterrupt
                     except Exception:
