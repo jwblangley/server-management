@@ -63,10 +63,7 @@ class ServerManager:
             print("Not shutting down - server in use")
             return
 
-        result = self.run_remote("sudo", "shutdown", "now")
-
-        if result.returncode != 0:
-            raise RuntimeError(f"Remote call returned code: {result.returncode}")
+        self.run_remote("sudo", "shutdown", "now")
 
         print("Server shutdown complete")
 
