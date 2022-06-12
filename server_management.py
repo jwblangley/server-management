@@ -77,9 +77,8 @@ class ServerManager:
         verify_ports=None,
         verify=False,
     ):
-        if verify and verify_ports is not None and len(verify_ports) > 0:
+        if verify_ports is not None and len(verify_ports) > 0:
             if all(self.is_port_open(p) == start for p in verify_ports):
-                print("skipping")
                 return
 
         script = f"applications/{script_prefix}.{'on' if start else 'off'}.sh"
